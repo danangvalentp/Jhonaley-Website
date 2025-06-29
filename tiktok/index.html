@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Warning - Access Denied</title>
+    <style>
+        /* Reset CSS untuk memastikan konsistensi di semua browser */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Gaya dasar untuk body */
+        body {
+            background: linear-gradient(45deg, #000000, #330000, #000000); /* Latar belakang gradien gelap */
+            background-size: 400% 400%; /* Ukuran latar belakang untuk animasi gradien */
+            animation: gradientShift 3s ease infinite; /* Animasi perpindahan gradien */
+            color: #ff0000; /* Warna teks merah terang */
+            font-family: 'Courier New', monospace; /* Font bergaya terminal */
+            height: 100vh; /* Tinggi penuh viewport */
+            overflow: hidden; /* Mencegah scrolling */
+            display: flex; /* Menggunakan flexbox untuk penataan */
+            justify-content: center; /* Pusatkan konten secara horizontal */
+            align-items: center; /* Pusatkan konten secara vertikal */
+        }
+
+        /* Animasi untuk perpindahan gradien latar belakang */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animasi berkedip */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Animasi efek kesalahan (glitch) */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Kontainer utama untuk semua konten */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Tinggi penuh viewport */
+            width: 100%; /* Lebar penuh */
+            text-align: center;
+            position: relative;
+            padding: 10px; /* Sedikit padding untuk ruang di sisi */
+            overflow-y: auto; /* Memungkinkan scrolling jika konten melebihi tinggi layar */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        /* Sembunyikan scrollbar untuk Webkit (Chrome, Safari) */
+        .container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ASCII Art */
+        .ascii-art {
+            color: #ff0000;
+            font-size: 8px; /* Ukuran font lebih kecil untuk mobile */
+            line-height: 1;
+            margin-bottom: 20px; /* Mengurangi margin bawah */
+            white-space: pre;
+            animation: glitch 2s infinite;
+            max-width: 100%; /* Pastikan tidak melebihi lebar kontainer */
+            overflow-x: hidden; /* Sembunyikan overflow horizontal jika ascii art terlalu lebar */
+        }
+
+        /* Kotak peringatan */
+        .warning-box {
+            border: 3px solid #ff0000;
+            padding: 20px; /* Mengurangi padding untuk mobile */
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 50px #ff0000, inset 0 0 20px rgba(255, 0, 0, 0.3);
+            animation: blink 2s infinite;
+            max-width: 95%; /* Pastikan sesuai dengan lebar layar mobile */
+            width: 100%; /* Pastikan lebar 100% dari parent */
+            margin: 10px; /* Margin untuk menjauh dari tepi layar */
+        }
+
+        /* Gaya tengkorak */
+        .skull {
+            font-size: 3em; /* Ukuran font lebih kecil untuk mobile */
+            animation: glitch 0.5s infinite;
+            margin-bottom: 15px; /* Mengurangi margin bawah */
+        }
+
+        /* Judul utama */
+        h1 {
+            font-size: 1.8em; /* Ukuran font lebih kecil untuk mobile */
+            margin: 15px 0;
+            text-shadow: 0 0 10px #ff0000;
+            animation: blink 1s infinite;
+        }
+
+        /* Subtitle */
+        .subtitle {
+            color: #ffff00;
+            font-size: 1.2em; /* Ukuran font lebih kecil untuk mobile */
+            margin: 10px 0;
+            text-shadow: 0 0 5px #ffff00;
+        }
+
+        /* Pesan utama */
+        .message {
+            color: #ffffff;
+            font-size: 1em; /* Ukuran font lebih kecil untuk mobile */
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        /* Kotak informasi */
+        .info-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px; /* Mengurangi padding */
+            margin: 15px 0;
+            border-radius: 10px;
+            border: 1px solid #ff6600;
+            text-align: left;
+        }
+
+        /* Item informasi */
+        .info-item {
+            color: #ff6600;
+            margin: 5px 0;
+            font-size: 0.8em; /* Ukuran font lebih kecil */
+        }
+
+        /* Informasi sistem */
+        .system-info {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px; /* Mengurangi padding */
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 1px solid #0066cc;
+            font-size: 0.7em; /* Ukuran font lebih kecil */
+        }
+
+        .system-info h3 {
+            color: #0066cc;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .system-info-item {
+            color: #cccccc;
+            margin: 3px 0;
+        }
+
+        /* Hitung mundur */
+        .countdown {
+            color: #ffff00;
+            font-size: 1.8em; /* Ukuran font lebih kecil */
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 0 0 10px #ffff00;
+            animation: blink 0.5s infinite;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            width: 100%;
+            height: 15px; /* Ketinggian lebih rendah */
+            background: #333;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+            border: 1px solid #ff0000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #ff6600, #ffff00);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Footer */
+        .footer {
+            color: #cccccc;
+            font-size: 0.7em; /* Ukuran font lebih kecil */
+            margin-top: 20px;
+            opacity: 0.8;
+        }
+
+        /* Latar belakang efek matriks */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        /* Log pemindaian */
+        .scan-log {
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff00;
+            padding: 10px; /* Mengurangi padding */
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #00ff00;
+            font-size: 0.7em; /* Ukuran font lebih kecil */
+            max-height: 100px; /* Ketinggian maksimal lebih rendah */
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        /* Media queries untuk perangkat dengan lebar maksimal 768px (tablet dan mobile) */
+        @media (max-width: 768px) {
+            .warning-box {
+                padding: 15px; /* Sesuaikan padding */
+                margin: 5px; /* Sesuaikan margin */
+            }
+
+            h1 {
+                font-size: 1.5em; /* Ukuran font yang lebih kecil */
+            }
+
+            .subtitle {
+                font-size: 1em; /* Ukuran font yang lebih kecil */
+            }
+
+            .message {
+                font-size: 0.9em; /* Ukuran font yang lebih kecil */
+            }
+
+            .ascii-art {
+                font-size: 5px; /* Ukuran font yang sangat kecil untuk ASCII art */
+            }
+
+            .skull {
+                font-size: 2.5em; /* Ukuran font yang lebih kecil */
+            }
+
+            .countdown {
+                font-size: 1.5em; /* Ukuran font yang lebih kecil */
+            }
+
+            .info-item, .system-info-item, .scan-log {
+                font-size: 0.75em; /* Ukuran font yang lebih kecil */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg" id="matrixBg"></div>
+
+    <div class="container">
+        <div class="ascii-art" id="asciiArt">
+████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗ ██╗     
+╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗██║     
+   ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║███████║██║     
+   ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║██║     
+   ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██║  ██║███████╗
+   ╚═╝   ╚══════╝╚╚╝  ╚╚╝╚╚╝     ╚╚╝╚╚╝╚╚╝  ╚═══╝╚╚╝  ╚╚╝╚══════╝
+
+           🚨 AKSES TIDAK DIIZINKAN - UNAUTHORIZED ACCESS 🚨
+        </div>
+
+        <div class="warning-box">
+            <div class="skull">☠️💀☠️</div>
+
+            <h1>⚠️ ACCESS DENIED ⚠️</h1>
+            <div class="subtitle">PEMBERSIH SERVER V2.0</div>
+
+            <div class="message">
+                <p>🚨 PERINGATAN KEAMANAN - SECURITY WARNING 🚨</p>
+                <p>Akses ke file ini telah dideteksi dan dicatat!</p>
+                <p>Access to this file has been detected and logged!</p>
+            </div>
+
+            <div class="system-info">
+                <h3>📊 INFORMASI VISITOR - VISITOR INFORMATION:</h3>
+                <div class="system-info-item">IP: <span id="userIP">Hidden for security</span></div>
+                <div class="system-info-item">User Agent: <span id="userAgent"></span></div>
+                <div class="system-info-item">Timestamp: <span id="timestamp"></span></div>
+                <div class="system-info-item">Referrer: <span id="referrer"></span></div>
+                <div class="system-info-item">Language: <span id="language"></span></div>
+                <div class="system-info-item">Platform: <span id="platform"></span></div>
+                <div class="system-info-item">Screen: <span id="screen"></span></div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-item">🔍 Memulai pemindaian keamanan - Starting security scan...</div>
+                <div class="info-item">📡 Memberitahu tim keamanan - Notifying security team...</div>
+                <div class="info-item">🛡️ Mengaktifkan tindakan balasan - Activating countermeasures...</div>
+                <div class="info-item">📊 Mencatat detail insiden - Logging incident details...</div>
+            </div>
+
+            <div class="scan-log" id="scanLog">
+                <div>⏳ Security scan initializing...</div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="countdown" id="countdown">
+                Redirecting in <span id="countdownNumber">10</span> seconds...
+            </div>
+
+            <div class="message">
+                <p>Your access attempt has been logged and reported to the administrator.</p>
+                <p>Upaya akses Anda telah dicatat dan dilaporkan ke administrator.</p>
+            </div>
+
+            <div class="footer">
+                <p>🔒 Jhonaley Security System v2.0</p>
+                <p>Developed by Jhonaley Team</p>
+                <p>Unauthorized access is strictly prohibited</p>
+                <p>All activities are monitored and recorded</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Nonaktifkan klik kanan untuk mencegah inspeksi elemen
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // Nonaktifkan shortcut keyboard seperti F12, Ctrl+Shift+I/C/U untuk alat pengembang
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) ||
+                (e.ctrlKey && e.key === 'u')) {
+                e.preventDefault();
+                // Mengganti alert dengan console.log karena alert tidak disarankan di lingkungan iframe
+                console.warn('🚫 Developer tools access blocked for security reasons!');
+            }
+        });
+
+        // Menginisialisasi informasi sistem seperti User Agent, Timestamp, dll.
+        function initializeSystemInfo() {
+            document.getElementById('userAgent').textContent = navigator.userAgent.substring(0, 50) + '...';
+            document.getElementById('timestamp').textContent = new Date().toISOString();
+            document.getElementById('referrer').textContent = document.referrer || 'Direct Access';
+            document.getElementById('language').textContent = navigator.language;
+            document.getElementById('platform').textContent = navigator.platform;
+            document.getElementById('screen').textContent = `${screen.width}x${screen.height}`;
+        }
+
+        // Memulai simulasi pemindaian keamanan
+        function startSecurityScan() {
+            const scanLog = document.getElementById('scanLog');
+            const progressFill = document.getElementById('progressFill');
+
+            // Pesan-pesan yang akan ditampilkan selama pemindaian
+            const scanMessages = [
+                '⏳ Scanning system for vulnerabilities...',
+                '🔍 Analyzing network traffic...',
+                '📊 Checking security protocols...',
+                '🛡️ Activating defense systems...',
+                '📡 Contacting security server...',
+                '🚨 Threat level: HIGH',
+                '⚠️ Unauthorized access detected!',
+                '📝 Logging incident to security database...',
+                '🔒 Access restrictions activated',
+                '✅ Security scan completed - THREATS DETECTED!'
+            ];
+
+            let progress = 0;
+            let messageIndex = 0;
+
+            // Interval untuk menambahkan pesan pemindaian dan memperbarui progress bar
+            const scanInterval = setInterval(() => {
+                if (messageIndex < scanMessages.length) {
+                    const newMessage = document.createElement('div');
+                    newMessage.textContent = scanMessages[messageIndex];
+                    scanLog.appendChild(newMessage);
+                    scanLog.scrollTop = scanLog.scrollHeight; // Gulir ke bawah untuk menampilkan pesan terbaru
+                    messageIndex++;
+                }
+
+                progress += Math.random() * 12 + 8; // Menambahkan progress secara acak
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(scanInterval); // Hentikan interval ketika progress mencapai 100%
+
+                    // Pesan keamanan terakhir setelah pemindaian selesai
+                    setTimeout(() => {
+                        const finalMessage = document.createElement('div');
+                        finalMessage.innerHTML = '<span style="color: #ff0000; font-weight: bold;">🚨 SECURITY MEASURES ACTIVATED</span>';
+                        scanLog.appendChild(finalMessage);
+                        scanLog.scrollTop = scanLog.scrollHeight;
+                    }, 1000);
+                }
+
+                progressFill.style.width = progress + '%'; // Perbarui lebar progress bar
+            }, 600);
+        }
+
+        // Timer hitung mundur untuk pengalihan halaman
+        let countdown = 10;
+        const countdownElement = document.getElementById('countdownNumber');
+
+        const timer = setInterval(() => {
+            countdown--;
+            if (countdownElement) {
+                countdownElement.textContent = countdown;
+            }
+
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.location.replace('https://www.jhonaley.net'); // Mengalihkan kembali ke index.html
+            }
+        }, 1000);
+
+        // Membuat efek latar belakang matriks
+        function createMatrixEffect() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const matrixBg = document.getElementById('matrixBg');
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.position = 'absolute';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.zIndex = '-1';
+
+            matrixBg.appendChild(canvas);
+
+            const chars = '01'; // Karakter untuk efek matriks
+            const charArray = chars.split('');
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = []; // Array untuk melacak posisi karakter di setiap kolom
+
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1; // Mulai setiap kolom dari atas
+            }
+
+            // Fungsi untuk menggambar efek matriks
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Latar belakang transparan untuk efek "jatuh"
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#ff0000'; // Warna karakter matriks
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = charArray[Math.floor(Math.random() * charArray.length)]; // Pilih karakter acak
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize); // Gambar karakter
+
+                    // Reset karakter ke atas ketika mencapai bawah atau secara acak
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++; // Gerakkan karakter ke bawah
+                }
+            }
+
+            setInterval(draw, 100); // Gambar setiap 100ms
+        }
+
+        // Pesan peringatan di konsol browser
+        console.clear();
+        console.log('%c████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗ ██╗     ', 'color: #ff0000; font-family: monospace; font-weight: bold;');
+        console.log('%c           🚨 AKSES TIDAK DIIZINKAN - UNAUTHORIZED ACCESS 🚨', 'color: #ff0000; font-family: monospace; font-weight: bold;');
+        console.log('%c⚠️  PERINGATAN KEAMANAN - SECURITY WARNING ⚠️', 'color: #ff0000; font-size: 18px; font-weight: bold; background: #ffff00; padding: 10px;');
+        console.log('%cAkses ke file ini telah dideteksi dan dicatat!', 'color: #ff0000; font-size: 14px; font-weight: bold;');
+        console.log('%cAccess to this file has been detected and logged!', 'color: #ff0000; font-size: 14px; font-weight: bold;');
+
+        // Mencatat informasi visitor ke konsol
+        const visitorInfo = {
+            ip: 'Hidden for security', // IP disembunyikan
+            userAgent: navigator.userAgent,
+            timestamp: new Date().toISOString(),
+            referrer: document.referrer || 'Direct Access',
+            location: window.location.href,
+            language: navigator.language,
+            platform: navigator.platform,
+            cookieEnabled: navigator.cookieEnabled,
+            onlineStatus: navigator.onLine ? 'Online' : 'Offline'
+        };
+
+        console.log('%c📊 INFORMASI VISITOR - VISITOR INFORMATION:', 'color: #0066cc; font-size: 16px; font-weight: bold;');
+        console.table(visitorInfo);
+
+        // Memanggil semua fungsi inisialisasi ketika halaman dimuat
+        initializeSystemInfo();
+        startSecurityScan();
+        createMatrixEffect();
+
+        // Mencegah halaman di-refresh, menampilkan pesan peringatan
+        window.addEventListener('beforeunload', (e) => {
+            e.preventDefault();
+            e.returnValue = 'Security protocols are active. Are you sure you want to leave?';
+        });
+
+        // Simulasi respons server setelah beberapa detik
+        setTimeout(() => {
+            console.log('%c📡 SERVER RESPONSE:', 'color: #0066cc; font-size: 14px; font-weight: bold;');
+            console.log('%c- IP Address logged in security database', 'color: #666666; font-size: 12px;');
+            console.log('%c- Administrator telah diberitahu - Administrator notified', 'color: #666666; font-size: 12px;');
+            console.log('%c- Tindakan pencegahan diaktifkan - Preventive measures activated', 'color: #666666; font-size: 12px;');
+        }, 3000);
+
+        // Peringatan terakhir di konsol
+        setTimeout(() => {
+            console.log('%c' + '='.repeat(80), 'color: #ff0000; font-weight: bold;');
+            console.log('%c⚠️  FINAL WARNING - PERINGATAN TERAKHIR  ⚠️', 'color: #ff0000; font-size: 16px; font-weight: bold; background: #ffff00;');
+            console.log('%cThis incident will be reported to relevant authorities.', 'color: #ff0000; font-size: 12px;');
+            console.log('%cInsiden ini akan dilaporkan kepada pihak berwenang.', 'color: #ff0000; font-size: 12px;');
+            console.log('%c' + '='.repeat(80), 'color: #ff0000; font-weight: bold;');
+        }, 5000);
+    </script>
+</body>
+</html>
